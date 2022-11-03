@@ -3,6 +3,8 @@ package com.example.taskmanager.tasks;
 import com.example.taskmanager.tasks.dto.CreateTaskDto;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/tasks")
 public class TaskController {
@@ -19,17 +21,21 @@ public class TaskController {
     }
     //Get All Tasks
     @GetMapping("")
-    public String getAllTasks(){
-        return "this is Get request";
+    public List<TaskEntity> getAllTasks(){
+        return taskService.getTasks();
     }
     //Get Task for taskId
     @GetMapping("/{taskId}")
-    public void getTask(@PathVariable Long taskId){
-
+    public TaskEntity getTask(@PathVariable Long taskId){
+        return taskService.getTask(taskId);
     }
     //Update a task
     @PatchMapping("{taskId}")
-    public void UpdateTask(@PathVariable Long taskId){
-
+    public TaskEntity updateTask(@PathVariable Long taskId, @RequestBody CreateTaskDto taskToUpdate){
+        return taskService.updateTask(taskId,taskToUpdate);
+    }
+    @DeleteMapping("{/taskId}")
+    public String deleteTask(@PathVariable Long taskId){
+        return taskService.deleteTask(taskId);
     }
 }

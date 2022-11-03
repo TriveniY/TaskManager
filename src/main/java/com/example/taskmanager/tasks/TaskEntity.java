@@ -26,3 +26,4 @@ public class TaskEntity {
     @JoinColumn(name = "taskId")
     private List<NotesEntity> notes;
 }
+

@@ -1,6 +1,7 @@
 package com.example.taskmanager.tasks;
 
 import com.example.taskmanager.notes.NotesEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -20,7 +21,8 @@ public class TaskEntity {
     private String title;
     private String description;
     private boolean completed;
-    private Date dueDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern = "dd/mm/yyyy")
+    private Date deadline;
 
     @OneToMany
     @JoinColumn(name = "taskId")

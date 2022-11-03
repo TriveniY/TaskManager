@@ -1,10 +1,12 @@
 package com.example.taskmanager.tasks;
 
 import com.example.taskmanager.tasks.dto.CreateTaskDto;
+import com.example.taskmanager.tasks.exceptions.TaskNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 
 @Service
 public class TaskService {
@@ -15,6 +17,8 @@ public class TaskService {
         this.modelMapper = modelMapper;
     }
     public CreateTaskDto createTask(CreateTaskDto taskToCreate){
+        System.out.println("Task to Create-->"+taskToCreate.toString());
+        //LocalDate deadline = new LocalDate();
         TaskEntity newTask = modelMapper.map(taskToCreate, TaskEntity.class);
         taskRepository.save(newTask);
         return modelMapper.map(newTask,CreateTaskDto.class);
@@ -28,11 +32,11 @@ public class TaskService {
     }
 
     public TaskEntity updateTask(Long taskId,CreateTaskDto taskToUpdate){
-        TaskEntity oldTask = taskRepository.findById(taskId).orElseThrow();
-        System.out.println("oldTask-->"+oldTask);
+        TaskEntity oldTask = taskRepository.findById(taskId).orElseThrow(()->new TaskNotFoundException(taskId));
+        System.out.println("oldTask--->"+oldTask);
         TaskEntity updatedTask = modelMapper.map(taskToUpdate,TaskEntity.class);
+
         updatedTask.setId(oldTask.getId());
-        System.out.println("oldTask-->"+oldTask);
         updatedTask.setCompleted(true);
         return taskRepository.save(updatedTask);
     }

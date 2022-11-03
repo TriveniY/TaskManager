@@ -25,5 +25,4 @@ public class TaskEntity {
     @OneToMany
     @JoinColumn(name = "taskId")
     private List<NotesEntity> notes;
-
 }

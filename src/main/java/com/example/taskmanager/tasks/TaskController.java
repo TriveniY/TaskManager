@@ -1,30 +1,35 @@
 package com.example.taskmanager.tasks;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.example.taskmanager.tasks.dto.CreateTaskDto;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/tasks")
 public class TaskController {
+    private final TaskService taskService;
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+
     //Create Task
     @PostMapping("")
-    public void createTask(){
-
+    public CreateTaskDto createTask(@RequestBody CreateTaskDto taskToCreate){
+        return taskService.createTask(taskToCreate);
     }
     //Get All Tasks
     @GetMapping("")
-    public void getAllTasks(){
-
+    public String getAllTasks(){
+        return "this is Get request";
     }
     //Get Task for taskId
-    @GetMapping("/{id}")
-    public void getTask(){
+    @GetMapping("/{taskId}")
+    public void getTask(@PathVariable Long taskId){
 
     }
     //Update a task
-    public void UpdateTask(){
+    @PatchMapping("{taskId}")
+    public void UpdateTask(@PathVariable Long taskId){
 
     }
 }

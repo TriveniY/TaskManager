@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: uday
+    password:
+  jpa:
+    show-sql: true
+    #drop n create table again, good for testing, comment this in production
+    hibernate:
+      ddl-auto: create
+    properties:
+      format_sql: true
+
+
+
+

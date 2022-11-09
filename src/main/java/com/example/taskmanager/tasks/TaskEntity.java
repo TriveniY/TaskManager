@@ -25,7 +25,7 @@ public class TaskEntity {
     private Date deadline;
 
     @OneToMany
-    @JoinColumn(name = "taskId")
+    @JoinColumn(name = "task_id")
     private List<NotesEntity> notes;
 }
 

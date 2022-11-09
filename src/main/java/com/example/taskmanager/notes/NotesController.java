@@ -24,7 +24,7 @@ public class NotesController {
         return notesService.createNotes(task_id,notes);
     }
     //Delete Notes for taskId
-    @DeleteMapping("/{task_id}/notes/{notes_id}")
+    @DeleteMapping("/notes/{notes_id}")
     public String deleteNotes(@PathVariable Long notes_id){
         return notesService.deleteNotes(notes_id);
     }

@@ -28,7 +28,7 @@ public class TaskService {
         return taskRepository.findAll();
     }
     public TaskEntity getTask(Long taskId){
-        return taskRepository.findById(taskId).orElseThrow();
+        return taskRepository.findById(taskId).orElseThrow(()->new TaskNotFoundException(taskId));
     }
 
     public TaskEntity updateTask(Long taskId,CreateTaskDto taskToUpdate){

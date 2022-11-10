@@ -1,8 +1,13 @@
 package com.example.taskmanager.tasks;
 
+import com.example.taskmanager.common.ErrorResponseDto;
 import com.example.taskmanager.tasks.dto.CreateTaskDto;
+import com.example.taskmanager.tasks.exceptions.TaskNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -17,8 +22,9 @@ public class TaskController {
 
     //Create Task
     @PostMapping("")
-    public CreateTaskDto createTask(@RequestBody CreateTaskDto taskToCreate){
-        return taskService.createTask(taskToCreate);
+    public ResponseEntity<CreateTaskDto> createTask(@RequestBody CreateTaskDto taskToCreate){
+        CreateTaskDto savedTask = taskService.createTask(taskToCreate);
+        return ResponseEntity.created(URI.create("/tasks/")).body(savedTask);
     }
     //Get All Tasks
     @GetMapping("")
@@ -28,6 +34,7 @@ public class TaskController {
     //Get Task for taskId
     @GetMapping("/{taskId}")
     public TaskEntity getTask(@PathVariable Long taskId){
+
         return taskService.getTask(taskId);
     }
     //Update a task
@@ -38,5 +45,13 @@ public class TaskController {
     @DeleteMapping("{taskId}")
     public String deleteTask(@PathVariable Long taskId){
         return taskService.deleteTask(taskId);
+    }
+
+    @ExceptionHandler({TaskNotFoundException.class})
+    public ResponseEntity<ErrorResponseDto> handleException(Exception ex){
+        ErrorResponseDto error = new ErrorResponseDto();
+        error.setMessage(ex.getMessage());
+        error.setStatus(HttpStatus.NOT_FOUND.value());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }

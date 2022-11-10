@@ -10,6 +10,15 @@ spring:
       ddl-auto: create
     properties:
       format_sql: true
+  management:
+    security:
+      enabled: false
+    endpoints:
+      web:
+        exposure:
+          include: health,info
+
+
 
 
 
